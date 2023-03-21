@@ -32,11 +32,6 @@ public class BankService extends BankServiceGrpc.BankServiceImplBase {
             Money money = Money.newBuilder().setValue(10).build();
             responseObserver.onNext(money);
             AccountDatabase.getBalance(accountNumber, 10);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
 
         responseObserver.onCompleted();
