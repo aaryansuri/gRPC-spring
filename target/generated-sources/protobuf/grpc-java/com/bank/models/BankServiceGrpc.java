@@ -46,6 +46,37 @@ public final class BankServiceGrpc {
     return getGetBalanceMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.bank.models.WithdrawRequest,
+      com.bank.models.Money> getWithdrawMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "withdraw",
+      requestType = com.bank.models.WithdrawRequest.class,
+      responseType = com.bank.models.Money.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<com.bank.models.WithdrawRequest,
+      com.bank.models.Money> getWithdrawMethod() {
+    io.grpc.MethodDescriptor<com.bank.models.WithdrawRequest, com.bank.models.Money> getWithdrawMethod;
+    if ((getWithdrawMethod = BankServiceGrpc.getWithdrawMethod) == null) {
+      synchronized (BankServiceGrpc.class) {
+        if ((getWithdrawMethod = BankServiceGrpc.getWithdrawMethod) == null) {
+          BankServiceGrpc.getWithdrawMethod = getWithdrawMethod =
+              io.grpc.MethodDescriptor.<com.bank.models.WithdrawRequest, com.bank.models.Money>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "withdraw"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.bank.models.WithdrawRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.bank.models.Money.getDefaultInstance()))
+              .setSchemaDescriptor(new BankServiceMethodDescriptorSupplier("withdraw"))
+              .build();
+        }
+      }
+    }
+    return getWithdrawMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -95,10 +126,23 @@ public final class BankServiceGrpc {
   public static abstract class BankServiceImplBase implements io.grpc.BindableService {
 
     /**
+     * <pre>
+     * unary
+     * </pre>
      */
     public void getBalance(com.bank.models.BalanceCheckRequest request,
         io.grpc.stub.StreamObserver<com.bank.models.Balance> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetBalanceMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * ser-side streaming
+     * </pre>
+     */
+    public void withdraw(com.bank.models.WithdrawRequest request,
+        io.grpc.stub.StreamObserver<com.bank.models.Money> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getWithdrawMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -110,6 +154,13 @@ public final class BankServiceGrpc {
                 com.bank.models.BalanceCheckRequest,
                 com.bank.models.Balance>(
                   this, METHODID_GET_BALANCE)))
+          .addMethod(
+            getWithdrawMethod(),
+            io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+              new MethodHandlers<
+                com.bank.models.WithdrawRequest,
+                com.bank.models.Money>(
+                  this, METHODID_WITHDRAW)))
           .build();
     }
   }
@@ -129,11 +180,25 @@ public final class BankServiceGrpc {
     }
 
     /**
+     * <pre>
+     * unary
+     * </pre>
      */
     public void getBalance(com.bank.models.BalanceCheckRequest request,
         io.grpc.stub.StreamObserver<com.bank.models.Balance> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetBalanceMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * ser-side streaming
+     * </pre>
+     */
+    public void withdraw(com.bank.models.WithdrawRequest request,
+        io.grpc.stub.StreamObserver<com.bank.models.Money> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncServerStreamingCall(
+          getChannel().newCall(getWithdrawMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -152,10 +217,24 @@ public final class BankServiceGrpc {
     }
 
     /**
+     * <pre>
+     * unary
+     * </pre>
      */
     public com.bank.models.Balance getBalance(com.bank.models.BalanceCheckRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetBalanceMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * ser-side streaming
+     * </pre>
+     */
+    public java.util.Iterator<com.bank.models.Money> withdraw(
+        com.bank.models.WithdrawRequest request) {
+      return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
+          getChannel(), getWithdrawMethod(), getCallOptions(), request);
     }
   }
 
@@ -174,6 +253,9 @@ public final class BankServiceGrpc {
     }
 
     /**
+     * <pre>
+     * unary
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.bank.models.Balance> getBalance(
         com.bank.models.BalanceCheckRequest request) {
@@ -183,6 +265,7 @@ public final class BankServiceGrpc {
   }
 
   private static final int METHODID_GET_BALANCE = 0;
+  private static final int METHODID_WITHDRAW = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -204,6 +287,10 @@ public final class BankServiceGrpc {
         case METHODID_GET_BALANCE:
           serviceImpl.getBalance((com.bank.models.BalanceCheckRequest) request,
               (io.grpc.stub.StreamObserver<com.bank.models.Balance>) responseObserver);
+          break;
+        case METHODID_WITHDRAW:
+          serviceImpl.withdraw((com.bank.models.WithdrawRequest) request,
+              (io.grpc.stub.StreamObserver<com.bank.models.Money>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -267,6 +354,7 @@ public final class BankServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new BankServiceFileDescriptorSupplier())
               .addMethod(getGetBalanceMethod())
+              .addMethod(getWithdrawMethod())
               .build();
         }
       }

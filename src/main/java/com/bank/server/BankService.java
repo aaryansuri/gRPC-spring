@@ -1,8 +1,6 @@
 package com.bank.server;
 
-import com.bank.models.Balance;
-import com.bank.models.BalanceCheckRequest;
-import com.bank.models.BankServiceGrpc;
+import com.bank.models.*;
 import io.grpc.stub.StreamObserver;
 
 public class BankService extends BankServiceGrpc.BankServiceImplBase {
@@ -14,5 +12,28 @@ public class BankService extends BankServiceGrpc.BankServiceImplBase {
 
         responseObserver.onNext(balance);
         responseObserver.onCompleted();
+    }
+
+    @Override
+    public void withdraw(WithdrawRequest request, StreamObserver<Money> responseObserver) {
+
+        int accountNumber = request.getAccountNumber();
+        int amount = request.getAmount();
+        int balance = AccountDatabase.getBalance(accountNumber);
+
+        for(int i = 0; i < amount/10; i++) {
+            Money money = Money.newBuilder().setValue(10).build();
+            responseObserver.onNext(money);
+            AccountDatabase.getBalance(accountNumber, 10);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        responseObserver.onCompleted();
+
+
     }
 }
