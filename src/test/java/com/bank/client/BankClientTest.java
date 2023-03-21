@@ -3,6 +3,7 @@ package com.bank.client;
 import com.bank.models.Balance;
 import com.bank.models.BalanceCheckRequest;
 import com.bank.models.BankServiceGrpc;
+import com.bank.models.WithdrawRequest;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.junit.jupiter.api.BeforeAll;
@@ -30,6 +31,14 @@ public class BankClientTest {
         );
 
         System.out.println(balance);
+    }
+
+    @Test
+    public void withdrawTest() {
+        WithdrawRequest request = WithdrawRequest.newBuilder().setAccountNumber(7).setAmount(40).build();
+        blockingStub.withdraw(request).forEachRemaining(
+                money -> System.out.println("Received : " + money.getValue())
+        );
     }
 
 
