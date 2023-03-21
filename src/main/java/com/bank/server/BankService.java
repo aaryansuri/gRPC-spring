@@ -1,6 +1,7 @@
 package com.bank.server;
 
 import com.bank.models.*;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 public class BankService extends BankServiceGrpc.BankServiceImplBase {
@@ -21,6 +22,12 @@ public class BankService extends BankServiceGrpc.BankServiceImplBase {
         int amount = request.getAmount();
         int balance = AccountDatabase.getBalance(accountNumber);
 
+        if(balance < amount) {
+            Status err = Status.FAILED_PRECONDITION.withDescription("No enough money. You have " + balance);
+            responseObserver.onError(err.asRuntimeException());
+            return;
+        }
+
         for(int i = 0; i < amount/10; i++) {
             Money money = Money.newBuilder().setValue(10).build();
             responseObserver.onNext(money);
@@ -33,7 +40,5 @@ public class BankService extends BankServiceGrpc.BankServiceImplBase {
         }
 
         responseObserver.onCompleted();
-
-
     }
 }
