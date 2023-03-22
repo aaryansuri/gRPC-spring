@@ -1,9 +1,6 @@
 package com.bank.client;
 
-import com.bank.models.Balance;
-import com.bank.models.BalanceCheckRequest;
-import com.bank.models.BankServiceGrpc;
-import com.bank.models.WithdrawRequest;
+import com.bank.models.*;
 import com.google.common.util.concurrent.Uninterruptibles;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -20,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class BankClientTest {
 
     private BankServiceGrpc.BankServiceBlockingStub blockingStub;
+
+    // async
     private BankServiceGrpc.BankServiceStub bankServiceStub;
     @BeforeAll
     public void setup() {
@@ -55,6 +54,23 @@ public class BankClientTest {
 
         WithdrawRequest request = WithdrawRequest.newBuilder().setAccountNumber(8).setAmount(40).build();
         bankServiceStub.withdraw(request, new MoneyStreamingResponse(latch));
+        latch.await();
+    }
+
+    @Test
+    public void cashStreamingRequest() throws InterruptedException {
+
+        CountDownLatch latch = new CountDownLatch(1);
+
+        StreamObserver<DepositRequest> streamObserver = bankServiceStub.cashDeposit(new BalanceStreamObserver(latch));
+
+        for(int i = 0; i < 10; i++) {
+            DepositRequest request = DepositRequest.newBuilder().setAmount(10).setAccountNumber(8).build();
+            streamObserver.onNext(request);
+        }
+
+        streamObserver.onCompleted();
+
         latch.await();
     }
 
