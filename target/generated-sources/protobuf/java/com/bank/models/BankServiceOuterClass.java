@@ -39,6 +39,21 @@ public final class BankServiceOuterClass {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_DepositRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_TransferRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_TransferRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Account_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Account_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_TransferResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_TransferResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -53,12 +68,19 @@ public final class BankServiceOuterClass {
       "\n\006amount\030\001 \001(\005\"9\n\017WithdrawRequest\022\026\n\016acc" +
       "ount_number\030\001 \001(\005\022\016\n\006amount\030\002 \001(\005\"\026\n\005Mon" +
       "ey\022\r\n\005value\030\001 \001(\005\"8\n\016DepositRequest\022\026\n\016a" +
-      "ccount_number\030\001 \001(\005\022\016\n\006amount\030\002 \001(\0052\217\001\n\013" +
-      "BankService\022,\n\ngetBalance\022\024.BalanceCheck" +
-      "Request\032\010.Balance\022&\n\010withdraw\022\020.Withdraw" +
-      "Request\032\006.Money0\001\022*\n\013cashDeposit\022\017.Depos" +
-      "itRequest\032\010.Balance(\001B\023\n\017com.bank.models" +
-      "P\001b\006proto3"
+      "ccount_number\030\001 \001(\005\022\016\n\006amount\030\002 \001(\005\"K\n\017T" +
+      "ransferRequest\022\024\n\014from_account\030\001 \001(\005\022\022\n\n" +
+      "to_account\030\002 \001(\005\022\016\n\006amount\030\003 \001(\005\"1\n\007Acco" +
+      "unt\022\026\n\016account_number\030\001 \001(\005\022\016\n\006amount\030\002 " +
+      "\001(\005\"O\n\020TransferResponse\022\037\n\006status\030\001 \001(\0162" +
+      "\017.TransferStatus\022\032\n\010accounts\030\002 \003(\0132\010.Acc" +
+      "ount*)\n\016TransferStatus\022\n\n\006FAILED\020\000\022\013\n\007SU" +
+      "CCESS\020\0012\304\001\n\013BankService\022,\n\ngetBalance\022\024." +
+      "BalanceCheckRequest\032\010.Balance\022&\n\010withdra" +
+      "w\022\020.WithdrawRequest\032\006.Money0\001\022*\n\013cashDep" +
+      "osit\022\017.DepositRequest\032\010.Balance(\001\0223\n\010tra" +
+      "nsfer\022\020.TransferRequest\032\021.TransferRespon" +
+      "se(\0010\001B\023\n\017com.bank.modelsP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -94,6 +116,24 @@ public final class BankServiceOuterClass {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DepositRequest_descriptor,
         new java.lang.String[] { "AccountNumber", "Amount", });
+    internal_static_TransferRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_TransferRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_TransferRequest_descriptor,
+        new java.lang.String[] { "FromAccount", "ToAccount", "Amount", });
+    internal_static_Account_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_Account_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Account_descriptor,
+        new java.lang.String[] { "AccountNumber", "Amount", });
+    internal_static_TransferResponse_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_TransferResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_TransferResponse_descriptor,
+        new java.lang.String[] { "Status", "Accounts", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

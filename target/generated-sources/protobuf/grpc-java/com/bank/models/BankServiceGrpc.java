@@ -108,6 +108,37 @@ public final class BankServiceGrpc {
     return getCashDepositMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.bank.models.TransferRequest,
+      com.bank.models.TransferResponse> getTransferMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "transfer",
+      requestType = com.bank.models.TransferRequest.class,
+      responseType = com.bank.models.TransferResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+  public static io.grpc.MethodDescriptor<com.bank.models.TransferRequest,
+      com.bank.models.TransferResponse> getTransferMethod() {
+    io.grpc.MethodDescriptor<com.bank.models.TransferRequest, com.bank.models.TransferResponse> getTransferMethod;
+    if ((getTransferMethod = BankServiceGrpc.getTransferMethod) == null) {
+      synchronized (BankServiceGrpc.class) {
+        if ((getTransferMethod = BankServiceGrpc.getTransferMethod) == null) {
+          BankServiceGrpc.getTransferMethod = getTransferMethod =
+              io.grpc.MethodDescriptor.<com.bank.models.TransferRequest, com.bank.models.TransferResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "transfer"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.bank.models.TransferRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.bank.models.TransferResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new BankServiceMethodDescriptorSupplier("transfer"))
+              .build();
+        }
+      }
+    }
+    return getTransferMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -186,6 +217,16 @@ public final class BankServiceGrpc {
       return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getCashDepositMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * bi directional streaming
+     * </pre>
+     */
+    public io.grpc.stub.StreamObserver<com.bank.models.TransferRequest> transfer(
+        io.grpc.stub.StreamObserver<com.bank.models.TransferResponse> responseObserver) {
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getTransferMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -209,6 +250,13 @@ public final class BankServiceGrpc {
                 com.bank.models.DepositRequest,
                 com.bank.models.Balance>(
                   this, METHODID_CASH_DEPOSIT)))
+          .addMethod(
+            getTransferMethod(),
+            io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
+              new MethodHandlers<
+                com.bank.models.TransferRequest,
+                com.bank.models.TransferResponse>(
+                  this, METHODID_TRANSFER)))
           .build();
     }
   }
@@ -258,6 +306,17 @@ public final class BankServiceGrpc {
         io.grpc.stub.StreamObserver<com.bank.models.Balance> responseObserver) {
       return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
           getChannel().newCall(getCashDepositMethod(), getCallOptions()), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * bi directional streaming
+     * </pre>
+     */
+    public io.grpc.stub.StreamObserver<com.bank.models.TransferRequest> transfer(
+        io.grpc.stub.StreamObserver<com.bank.models.TransferResponse> responseObserver) {
+      return io.grpc.stub.ClientCalls.asyncBidiStreamingCall(
+          getChannel().newCall(getTransferMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -326,6 +385,7 @@ public final class BankServiceGrpc {
   private static final int METHODID_GET_BALANCE = 0;
   private static final int METHODID_WITHDRAW = 1;
   private static final int METHODID_CASH_DEPOSIT = 2;
+  private static final int METHODID_TRANSFER = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -365,6 +425,9 @@ public final class BankServiceGrpc {
         case METHODID_CASH_DEPOSIT:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.cashDeposit(
               (io.grpc.stub.StreamObserver<com.bank.models.Balance>) responseObserver);
+        case METHODID_TRANSFER:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.transfer(
+              (io.grpc.stub.StreamObserver<com.bank.models.TransferResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -419,6 +482,7 @@ public final class BankServiceGrpc {
               .addMethod(getGetBalanceMethod())
               .addMethod(getWithdrawMethod())
               .addMethod(getCashDepositMethod())
+              .addMethod(getTransferMethod())
               .build();
         }
       }
